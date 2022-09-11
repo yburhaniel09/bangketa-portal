@@ -24,7 +24,7 @@ class CreateBookingsTable extends Migration
             $table->integer('no_pieces');
             $table->string('reference_num')->nullable();
             $table->dateTime('pickup_date');
-            $table->dateTime('delivery_date');
+            $table->dateTime('delivery_date')->nullable();
             $table->longText('notes')->nullable();
             $table->string('status')->nullable();
             $table->timestamps();
