@@ -14,6 +14,7 @@
           <!-- <li class="nav-item"><a class="nav-link" href="{{ backpack_url('permission') }}"><i class="nav-icon la la-key"></i> <span>Permissions</span></a></li> -->
       </ul>
 </li>
+@if(backpack_user()->hasRole('Super Admin'))
 <li class="nav-item nav-dropdown">
     <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-users"></i> Authentication</a>
     <ul class="nav-dropdown-items">
@@ -22,8 +23,13 @@
         <li class="nav-item"><a class="nav-link" href="{{ backpack_url('permission') }}"><i class="nav-icon la la-key"></i> <span>Permissions</span></a></li>
     </ul>
 </li>
+@endif
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('dashboard') }}"><i class="la la-home nav-icon"></i> {{ trans('backpack::base.dashboard') }}</a></li>
-@includeWhen(class_exists(\Backpack\DevTools\DevToolsServiceProvider::class), 'backpack.devtools::buttons.sidebar_item')
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('booking') }}'><i class='nav-icon la la-calendar-check'></i> Bookings</a></li>
+<!-- @includeWhen(class_exists(\Backpack\DevTools\DevToolsServiceProvider::class), 'backpack.devtools::buttons.sidebar_item') -->
+@if(backpack_user()->hasRole('Super Admin'))
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('driver') }}'><i class='nav-icon la la-car-side'></i> Drivers</a></li>
+@endif
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('booking') }}'><i class='nav-icon la la-calendar-check'></i> Bookings</a></li>
+@if(backpack_user()->hasRole('Client'))
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('consignee') }}'><i class='nav-icon la la-address-book'></i> Address Book</a></li>
+@endif
