@@ -48,7 +48,11 @@ class BookingCrudController extends CrudController
         CRUD::column('pickup_date');
         CRUD::column('delivery_date');
         CRUD::column('status');
-        CRUD::addClause('where', 'user_id', backpack_user()->id);
+        if(!backpack_user()->hasRole('Super Admin')) {
+            CRUD::addClause('where', 'user_id', backpack_user()->id);
+        }
+
+
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
@@ -108,6 +112,7 @@ class BookingCrudController extends CrudController
             'default' => backpack_user()->id
         ]);
 
+        CRUD::setCreateView('admin.booking.create');
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
@@ -195,6 +200,23 @@ class BookingCrudController extends CrudController
 
         if(backpack_user()->hasRole('Super Admin')) {
             CRUD::addField([
+                'name'  => 'separator2',
+                'type'  => 'custom_html',
+                'value' => '<hr>'
+            ]);
+            CRUD::addField([
+                'name'  => 'separator1',
+                'type'  => 'custom_html',
+                'value' => '<strong><h3>UPDATE BOOKING STATUS</h3></strong>'
+            ]);
+
+
+            CRUD::addField([
+                'name' => 'driver',
+                'type' => 'relationship'
+            ]);
+
+            CRUD::addField([
                 'name' => 'delivery_date',
                 'type' => 'date',
             ]);
@@ -221,6 +243,8 @@ class BookingCrudController extends CrudController
                 'label' => 'Admin Notes'
             ]);
         }
+
+        CRUD::setUpdateView('admin.booking.edit');
     }
 
     protected function setupShowOperation()
