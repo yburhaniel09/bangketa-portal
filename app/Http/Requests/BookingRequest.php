@@ -26,15 +26,12 @@ class BookingRequest extends FormRequest
     {
         return [
             'consignee' => 'required|integer',
-            'driver' => 'nullable|integer',
-            'user' => 'required|integer',
             'tracking_num' => 'nullable|string',
             'amount' => 'required|numeric',
             'weight' => 'required|numeric',
             'no_pieces' => 'required|integer',
             'reference_num' => 'nullable|string',
             'pickup_date' => 'required',
-            'delivery_date' => 'required',
             'notes' => 'nullable|string',
             'status' => 'nullable|string',
         ];

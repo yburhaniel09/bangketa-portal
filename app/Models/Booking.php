@@ -37,8 +37,6 @@ class Booking extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'amount' => 'decimal',
-        'weight' => 'decimal',
         'pickup_date' => 'datetime',
         'delivery_date' => 'datetime',
     ];
@@ -56,5 +54,20 @@ class Booking extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function getConsigneeAddressAttribute()
+    {
+        return $this->consignee->address;
+    }
+
+    public function getConsigneeEmirateAttribute()
+    {
+        return $this->consignee->emirate;
+    }
+
+    public function getConsigneePhoneAttribute()
+    {
+        return $this->consignee->phone;
     }
 }

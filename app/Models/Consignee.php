@@ -20,6 +20,7 @@ class Consignee extends Model
         'address',
         'emirate',
         'phone',
+        'user_id'
     ];
 
     /**
@@ -30,4 +31,9 @@ class Consignee extends Model
     protected $casts = [
         'id' => 'integer',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

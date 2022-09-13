@@ -15,6 +15,7 @@ class CreateConsigneesTable extends Migration
     {
         Schema::create('consignees', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id');
             $table->string('name');
             $table->longText('address');
             $table->string('emirate');

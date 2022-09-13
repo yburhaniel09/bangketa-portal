@@ -44,6 +44,7 @@ class ConsigneeCrudController extends CrudController
         CRUD::column('emirate');
         CRUD::column('phone');
 
+        CRUD::addClause('where', 'user_id', backpack_user()->id);
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
@@ -65,6 +66,11 @@ class ConsigneeCrudController extends CrudController
         CRUD::field('address');
         CRUD::field('emirate');
         CRUD::field('phone');
+        CRUD::addField([
+            'name' => 'user_id',
+            'type' => 'hidden',
+            'default' => backpack_user()->id
+        ]);
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
