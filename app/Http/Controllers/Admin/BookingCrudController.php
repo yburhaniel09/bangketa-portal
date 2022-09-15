@@ -6,6 +6,7 @@ use App\Http\Requests\BookingRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use App\Models\Booking;
+use App\Models\BookingHistory;
 
 /**
  * Class BookingCrudController
@@ -15,8 +16,8 @@ use App\Models\Booking;
 class BookingCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation { store as traitStore; }
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation { update as traitUpdate; }
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
@@ -316,5 +317,37 @@ class BookingCrudController extends CrudController
             'type'         => 'text',
             'label'        => 'Delivery Date',
         ]);
+
+        $booking_id = request()->route('id');
+        $this->data['histories'] = BookingHistory::where('booking_id', $booking_id)->get();
+
+        CRUD::setShowView('admin.booking.show');
+    }
+
+    public function store()
+    {
+        $response = $this->traitStore();
+
+        $input['status'] = 'Created';
+        $input['booking_id'] = $this->crud->entry->id;
+        $input['user_id'] = backpack_user()->id;
+        BookingHistory::create($input);
+
+        return $response;
+    }
+
+    public function update()
+    {
+        $request = $this->crud->getRequest();
+        $old = Booking::find($request->id);
+        if(backpack_user()->hasRole('Super Admin') && $old->status != $request->status) {
+            $input['status'] = $request->status;
+            $input['booking_id'] = $request->id;
+            $input['user_id'] = backpack_user()->id;
+            BookingHistory::create($input);
+        }
+
+        $response = $this->traitUpdate();
+        return $response;
     }
 }

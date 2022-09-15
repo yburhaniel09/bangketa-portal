@@ -25,7 +25,7 @@
 </li>
 @endif
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('dashboard') }}"><i class="la la-home nav-icon"></i> {{ trans('backpack::base.dashboard') }}</a></li>
-<!-- @includeWhen(class_exists(\Backpack\DevTools\DevToolsServiceProvider::class), 'backpack.devtools::buttons.sidebar_item') -->
+@includeWhen(class_exists(\Backpack\DevTools\DevToolsServiceProvider::class), 'backpack.devtools::buttons.sidebar_item')
 @if(backpack_user()->hasRole('Super Admin'))
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('driver') }}'><i class='nav-icon la la-car-side'></i> Drivers</a></li>
 @endif
